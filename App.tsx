@@ -154,16 +154,42 @@ const Navbar = () => {
 
 const WaitlistForm = ({ id = "hero-form" }: { id?: string }) => {
   const [email, setEmail] = useState('');
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'duplicate' | 'error'>('idle');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
+    
     setStatus('loading');
-    setTimeout(() => {
-      setStatus('success');
-      setEmail('');
-    }, 1500);
+    
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz5d82rUwIq7hoLdeQVdE0ofL0ZNF94LGWIo7Ia-VwA_0UDI0Kya2knXQMMHvKs3DpgcA/exec';
+
+    try {
+      const formData = new FormData();
+      formData.append('email', email);
+      
+      const response = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: formData
+      });
+      
+      const result = await response.json();
+      
+      if (result.status === 'success') {
+        setStatus('success');
+        setEmail('');
+      } else if (result.status === 'duplicate') {
+        setStatus('duplicate');
+        setTimeout(() => setStatus('idle'), 3000);
+      } else {
+        setStatus('error');
+        setTimeout(() => setStatus('idle'), 3000);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 3000);
+    }
   };
 
   if (status === 'success') {
@@ -182,6 +208,23 @@ const WaitlistForm = ({ id = "hero-form" }: { id?: string }) => {
     );
   }
 
+  const getButtonText = () => {
+    switch(status) {
+      case 'loading': return 'Joining...';
+      case 'duplicate': return 'Already Joined!';
+      case 'error': return 'Error - Try Again';
+      default: return 'Get Early Access';
+    }
+  };
+
+  const getButtonClass = () => {
+    switch(status) {
+      case 'duplicate': return '!bg-amber-500 hover:!bg-amber-600 !shadow-amber-500/30 !text-white !border-amber-500';
+      case 'error': return '!bg-red-500 hover:!bg-red-600 !shadow-red-500/30 !text-white !border-red-500';
+      default: return '';
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 w-full max-w-md relative">
       <input
@@ -189,11 +232,16 @@ const WaitlistForm = ({ id = "hero-form" }: { id?: string }) => {
         placeholder="Enter your work email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        className="flex-1 px-6 py-3.5 rounded-full border border-slate-200 bg-white shadow-sm focus:border-sky-500 focus:ring-2 focus:ring-sky-200 outline-none transition-all text-slate-900 placeholder:text-slate-400"
+        className="flex-1 px-6 py-3.5 rounded-full border border-slate-200 bg-white shadow-sm focus:border-sky-500 focus:ring-2 focus:ring-sky-200 outline-none transition-all text-slate-900 placeholder:text-slate-400 disabled:opacity-50 disabled:cursor-not-allowed"
         required
+        disabled={status === 'loading'}
       />
-      <Button type="submit" disabled={status === 'loading'} className="whitespace-nowrap shadow-xl shadow-sky-500/20">
-        {status === 'loading' ? 'Joining...' : 'Get Early Access'}
+      <Button 
+        type="submit" 
+        disabled={status === 'loading' || status === 'duplicate' || status === 'error'} 
+        className={`whitespace-nowrap shadow-xl shadow-sky-500/20 ${getButtonClass()}`}
+      >
+        {getButtonText()}
       </Button>
     </form>
   );
