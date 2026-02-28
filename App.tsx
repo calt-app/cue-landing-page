@@ -118,7 +118,7 @@ const Navbar = () => {
 
             <div className="flex items-center gap-4">
               {/* <a href="#" className="text-sm font-semibold text-slate-900 hover:text-sky-600">Login</a> */}
-              <Button className="px-5 py-2 text-sm">Get Early Access</Button>
+              <Button className="px-5 py-2 text-sm" onClick={() => document.getElementById('hero-form')?.scrollIntoView({ behavior: 'smooth' })}>Get Early Access</Button>
             </div>
           </div>
 
@@ -143,7 +143,7 @@ const Navbar = () => {
               <a href="#features" onClick={() => setIsOpen(false)} className="text-lg font-medium text-slate-900 w-full p-2 hover:bg-slate-50 rounded-lg">Features</a>
               <a href="#pricing" onClick={() => setIsOpen(false)} className="text-lg font-medium text-slate-900 w-full p-2 hover:bg-slate-50 rounded-lg">Pricing</a>
               <div className="w-full h-px bg-slate-100 my-2"></div>
-              <Button className="w-full justify-center">Get Early Access</Button>
+              <Button className="w-full justify-center" onClick={() => { setIsOpen(false); document.getElementById('hero-form')?.scrollIntoView({ behavior: 'smooth' }); }}>Get Early Access</Button>
             </div>
           </motion.div>
         )}
@@ -226,7 +226,7 @@ const WaitlistForm = ({ id = "hero-form" }: { id?: string }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 w-full max-w-md relative">
+    <form id={id} onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 w-full max-w-md relative">
       <input
         type="email"
         placeholder="Enter your work email"
@@ -478,9 +478,9 @@ const FeatureSection = () => {
             <p className="text-lg text-slate-600 leading-relaxed mb-6">
               Don’t start from scratch. Cue generates a first-draft agenda based on your event type and venue layout, optimizing flow and breaks.
             </p>
-            <Button variant="outline" className="gap-2">
+            {/* <Button variant="outline" className="gap-2">
                Try generating agenda <ArrowRight size={16} />
-            </Button>
+            </Button> */}
           </FadeIn>
           <FadeIn delay={0.2} className="order-2">
              <div className="bg-white rounded-3xl p-6 shadow-xl shadow-purple-900/5 border border-slate-100 relative overflow-hidden">
