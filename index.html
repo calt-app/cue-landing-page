@@ -3,7 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cue | From Brief to Booked in 48 Hours</title>
+    <title>CUE by Calt | Athens' cultural sponsorship marketplace</title>
+    <meta name="description" content="CUE is a cash sponsorship marketplace for Athens' cultural scene. Organizers find funding. Sponsors deploy cultural budget where it lands." />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230f172a'/%3E%3Crect x='72' y='12' width='14' height='14' rx='3' fill='%2338bdf8'/%3E%3Ctext x='50' y='72' font-size='62' font-family='-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif' font-weight='800' text-anchor='middle' fill='white'%3EC%3C/text%3E%3C/svg%3E" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="CUE by Calt | Athens' cultural sponsorship marketplace" />
+    <meta property="og:description" content="The marketplace connecting Athens event organizers with companies that want to fund culture. Backed by SNFCC, Onassis Foundation, This is Athens, and Adidas." />
+    <meta property="og:site_name" content="CUE by Calt" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="CUE by Calt | Athens' cultural sponsorship marketplace" />
+    <meta name="twitter:description" content="The marketplace connecting Athens event organizers with companies that want to fund culture." />
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script>
@@ -37,10 +46,22 @@
         background-color: #f8fafc;
         color: #0f172a;
       }
-      /* Smooth scrolling */
       html {
         scroll-behavior: smooth;
+        scroll-padding-top: 88px;
       }
+      @keyframes blob {
+        0%, 100% { transform: translate(0px, 0px) scale(1); }
+        33% { transform: translate(20px, -30px) scale(1.05); }
+        66% { transform: translate(-15px, 15px) scale(0.95); }
+      }
+      .animate-blob { animation: blob 14s ease-in-out infinite; }
+      .animation-delay-2000 { animation-delay: 2s; }
+      @keyframes partners-scroll {
+        from { transform: translateX(0); }
+        to   { transform: translateX(-50%); }
+      }
+      .animate-partners-scroll { animation: partners-scroll 30s linear infinite; width: max-content; }
     </style>
   <script type="importmap">
 {
@@ -53,7 +74,6 @@
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
 </head>
   <body>
     <div id="root"></div>
